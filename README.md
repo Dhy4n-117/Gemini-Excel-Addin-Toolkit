@@ -1,4 +1,4 @@
-# Gemini Addin Toolkit 🚀
+# Gemini Excel Addin Toolkit 🚀
 
 A powerful, dark-themed AI assistant for Microsoft Excel, powered by **Google Gemini 2.5 Flash**. 
 
@@ -36,8 +36,8 @@ This toolkit allows you to interact with your spreadsheets using natural languag
 ### 3. Installation
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/Gemini-Addin-Toolkit.git
-cd Gemini-Addin-Toolkit
+git clone https://github.com/Dhy4n-117/Gemini-Excel-Addin-Toolkit.git
+cd Gemini-Excel-Addin-Toolkit
 
 # Install dependencies
 npm install

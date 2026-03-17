@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gemini Addin Toolkit</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Office JS -->
+  <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header id="header">
+      <div class="header-left">
+        <div class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+        </div>
+        <h1>Addin Toolkit</h1>
+      </div>
+      <button id="settingsBtn" class="icon-btn" title="Settings" aria-label="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Settings Panel (hidden by default) -->
+    <div id="settingsPanel" class="settings-panel hidden">
+      <div class="settings-header">
+        <h3>Settings</h3>
+        <button id="closeSettingsBtn" class="icon-btn" aria-label="Close settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="settings-body">
+        <label for="apiKeyInput" class="settings-label">Gemini API Key</label>
+        <div class="api-key-row">
+          <input type="password" id="apiKeyInput" class="settings-input" placeholder="Paste your API key here..." />
+          <button id="toggleKeyVisibility" class="icon-btn" title="Show/hide key" aria-label="Toggle key visibility">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+        <button id="saveKeyBtn" class="btn btn-primary">Save Key</button>
+        <p class="settings-hint">
+          Get a free API key from <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>
+        </p>
+        <div id="keyStatus" class="key-status"></div>
+      </div>
+    </div>
+
+    <!-- Quick Actions Bar -->
+    <div id="quickActions" class="quick-actions">
+      <button class="quick-btn" data-action="Summarize the data in my selected range">
+        <span class="quick-icon">📊</span> Summarize
+      </button>
+      <button class="quick-btn" data-action="Clean the data: remove duplicates and trim whitespace">
+        <span class="quick-icon">🧹</span> Clean
+      </button>
+      <button class="quick-btn" data-action="Create a chart from the selected data">
+        <span class="quick-icon">📈</span> Chart
+      </button>
+      <button class="quick-btn" data-action="Explain the formula in the selected cell">
+        <span class="quick-icon">🧮</span> Explain
+      </button>
+    </div>
+
+    <!-- Chat Messages Area -->
+    <div id="chatMessages" class="chat-messages">
+      <!-- Welcome message -->
+      <div class="message ai-message welcome-message">
+        <div class="message-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+        </div>
+        <div class="message-content">
+          <p><strong>Hey! I'm your Excel AI Assistant.</strong></p>
+          <p>I can help you with:</p>
+          <ul>
+            <li>Writing formulas & functions</li>
+            <li>Cleaning and transforming data</li>
+            <li>Creating charts & visualizations</li>
+            <li>Analyzing trends & patterns</li>
+            <li>Adding, sorting & filtering data</li>
+          </ul>
+          <p>Select some data and tell me what you need!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div id="inputArea" class="input-area">
+      <div class="input-container">
+        <textarea
+          id="userInput"
+          class="chat-input"
+          placeholder="Ask me anything about your spreadsheet..."
+          rows="1"
+          aria-label="Message input"
+        ></textarea>
+        <button id="sendBtn" class="send-btn" title="Send message" aria-label="Send">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+      <div class="input-hint">
+        <span id="selectionIndicator" class="selection-indicator">No selection</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

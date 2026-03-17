@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+dist/
+*.log
+
+# Office Add-in Specifics
+*.pfx
+*.p12
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.bat
+scripts/*.bat
+
+# IDE / System files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
